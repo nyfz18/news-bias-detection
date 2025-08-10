@@ -1,0 +1,1 @@
+# storing config variables (API keys, constants, etc.)
