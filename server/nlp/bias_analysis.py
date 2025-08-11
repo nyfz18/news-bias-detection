@@ -10,24 +10,21 @@ BIAS_KEYWORDS = [
 ]
 
 def analyze_bias(text):
+    # sentiment analysis
     blob = TextBlob(text)
-
-    # sentiment polarity (-1 to 1)
     polarity = blob.sentiment.polarity
-    # subjectivity (0 to 1)
     subjectivity = blob.sentiment.subjectivity
 
-    # count bias keywords
-    matched_keywords = sum(word.lower() in text.lower() for word in BIAS_KEYWORDS)
+    # keyword bias detection
+    found_keywords = [word for word in BIAS_KEYWORDS if word.lower() in text.lower()]
+    keyword_count = len(found_keywords)
 
-    bias_count = len(matched_keywords)
-    # bias score combining subjectivity and bias keywords
-    bias_score = subjectivity * 50 + bias_count * 10 # scale subjectivity 
+    bias_score = min(100, keyword_count * 20 + subjectivity * 50)
 
     return {
         "polarity": polarity,
         "subjectivity": subjectivity,
-        "bias_keywords": matched_keywords,
-        "bias_count": bias_count,
-        "bias_score": min(bias_score, 100)
+        "bias_keywords": found_keywords,
+        "bias_count": keyword_count,
+        "bias_score": round(bias_score, 2)
     }

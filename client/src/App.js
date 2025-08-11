@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import "./App.css";
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
     setResult(null);
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/analyze", {
+      const response = await fetch("/analyze", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -41,12 +41,12 @@ function App() {
       <button onClick={analyzeText} disabled={loading}>
         {loading ? "Analyzing..." : "Analyze"}
       </button>
-      {result && (
+      {result && typeof result.polarity === "number" && typeof result.subjectivity === "number" && (
         <div className="result">
           <h2>Analysis Result:</h2>
           <p><strong>Polarity:</strong> {result.polarity.toFixed(2)}</p>
           <p><strong>Subjectivity:</strong> {result.subjectivity.toFixed(2)}</p>
-          <p><strong>Bias Keywords Found:</strong> {result.bias_keyword_count}</p>
+          <p><strong>Bias Keywords Found:</strong> {result.bias_count}</p>
           <p><strong>Bias Score:</strong> {result.bias_score}</p>
         </div>
       )}
