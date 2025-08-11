@@ -44,10 +44,42 @@ function App() {
       {result && typeof result.polarity === "number" && typeof result.subjectivity === "number" && (
         <div className="result">
           <h2>Analysis Result:</h2>
-          <p><strong>Polarity:</strong> {result.polarity.toFixed(2)}</p>
-          <p><strong>Subjectivity:</strong> {result.subjectivity.toFixed(2)}</p>
-          <p><strong>Bias Keywords Found:</strong> {result.bias_count}</p>
-          <p><strong>Bias Score:</strong> {result.bias_score}</p>
+          
+          <p>
+            <strong className="tooltip">
+              Polarity:
+              <span className="tooltiptext">
+                Polarity indicates the sentiment from negative (-1) to positive (+1).
+              </span>
+            </strong> {result.polarity.toFixed(2)}
+          </p>
+  
+          <p>
+            <strong className="tooltip">
+              Subjectivity:
+              <span className="tooltiptext">
+                Subjectivity measures how subjective (1) or objective (0) the text is.
+              </span>
+            </strong> {result.subjectivity.toFixed(2)}
+          </p>
+
+          <p>
+            <strong className="tooltip">
+              Bias Keywords Found:
+              <span className="tooltiptext">
+                Number of biased words detected in the text.
+              </span>
+            </strong> {result.bias_count}
+          </p>
+
+          <p>
+            <strong className="tooltip">
+              Bias Score:
+              <span className="tooltiptext">
+                Overall bias level calculated from keyword frequency and text subjectivity.
+              </span>
+            </strong> {result.bias_score}
+          </p>
         </div>
       )}
     </div>
