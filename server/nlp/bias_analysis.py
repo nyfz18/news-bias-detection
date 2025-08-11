@@ -1,21 +1,11 @@
 from textblob import TextBlob
 
 BIAS_KEYWORDS = [
-    "shocking",
-    "unbelievable",
-    "outrageous",
-    "incredible",
-    "unprecedented",
-    "unthinkable",
-    "unacceptable",
-    "unforgivable",
-    "secret",
-    "exposed",
-    "scandal",
-    "fake",
-    "conspiracy",
-    "breaking",
-    "controversial",
+    "shocking", "unbelievable", "outrageous",
+    "incredible", "unprecedented", "unthinkable",
+    "unacceptable", "unforgivable", "secret",
+    "exposed", "scandal", "fake",
+    "conspiracy", "breaking", "controversial",
     "exclusive",
 ]
 
@@ -28,14 +18,16 @@ def analyze_bias(text):
     subjectivity = blob.sentiment.subjectivity
 
     # count bias keywords
-    bias_count = sum(word.lower() in text.lower() for word in BIAS_KEYWORDS)
+    matched_keywords = sum(word.lower() in text.lower() for word in BIAS_KEYWORDS)
 
-    # simple bias score combing subjectivity and bias keywords
+    bias_count = len(matched_keywords)
+    # bias score combining subjectivity and bias keywords
     bias_score = subjectivity * 50 + bias_count * 10 # scale subjectivity 
 
     return {
         "polarity": polarity,
         "subjectivity": subjectivity,
+        "bias_keywords": matched_keywords,
         "bias_count": bias_count,
         "bias_score": min(bias_score, 100)
     }
