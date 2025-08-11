@@ -63,7 +63,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <h1>News Bias Analyzer</h1>
+      <h1>U.S. News Bias Analyzer</h1>
       
       {!analyzed ? (
         <textarea
