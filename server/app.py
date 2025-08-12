@@ -8,11 +8,14 @@ CORS(app)
 @app.route('/analyze', methods=['POST'])
 def analyze():
     data = request.get_json()
-    if not data or "text" not in data: 
+
+    if not data or "text" not in data:
         return jsonify({"error": "No text provided"}), 400
-    
-    text = data["text"]
-    analysis = analyze_bias(text)
+
+    text = data.get("text", "").strip()
+    media_outlet_input = data.get("media_outlet", "").strip()
+
+    analysis = analyze_bias(text, media_outlet_input)
 
     return jsonify({
         "text": text,

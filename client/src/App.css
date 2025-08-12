@@ -68,3 +68,13 @@ mark {
   background-color: #ffea00;
   font-weight: bold;
 }
+
+.left-leaning {
+  color: blue;
+}
+.right-leaning {
+  color: red;
+}
+.center {
+  color: purple;
+}

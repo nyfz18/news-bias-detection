@@ -1,0 +1,1 @@
+This project determines how biased the writing is based on the language used (i.e. words, terms, etc.). It focuses on U.S. media outlets, while providing the political polarity leaning of the source.  

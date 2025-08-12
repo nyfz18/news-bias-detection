@@ -3,6 +3,7 @@ import "./App.css";
 
 function App() {
   const [text, setText] = useState('');
+  const [mediaOutlet, setMediaOutlet] = useState('');
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -10,6 +11,7 @@ function App() {
 
   const resetAnalysis = () => {
     setText('');
+    setMediaOutlet('');
     setResult(null);
     setAnalyzed(false);
   };
@@ -46,7 +48,11 @@ function App() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ text })
+        body: JSON.stringify({ 
+          text: text,
+          media_outlet: mediaOutlet
+        })
+
       });
 
       const data = await response.json();
@@ -65,17 +71,35 @@ function App() {
     <div className="app-container">
       <h1>U.S. News Bias Analyzer</h1>
       
+      {/* Enter News Text: */}
       {!analyzed ? (
         <textarea
           placeholder="Paste your news text here..."
           value={text}
           onChange={(e) => setText(e.target.value)}
           rows={8}
-          style={{ width: '100%', fontSize: '16px' }}
+          style={{ width: '100%', fontSize: '12px' }}
         />
       ) : (
-        <div className="highlighted-text" style={{ whiteSpace: 'pre-wrap', fontSize: '16px', border: '1px solid #ccc', padding: '10px', minHeight: '150px' }}>
+        // Return text with bias keywords highlighted:
+        <div className="highlighted-text" style={{ fontSize: '15px', padding: '10px'}}>
           {highlightBiasKeywords(text, result.bias_keywords)}
+        </div>
+      )}
+
+      {/* Enter News Media Outlet:  */}
+      {!analyzed ? (
+        <textarea
+          placeholder="Enter the full name of media outlet (ex: New York Times instead of NYT, Fox News, CNN...)"
+          value={mediaOutlet}
+          onChange={(e) => setMediaOutlet(e.target.value)}
+          rows={3}
+          style={{ width: '100%', fontSize: '15px' }}
+        />
+      ) : (
+        <div>
+          {/* show the output of what the user entered in the textarea above: */}
+          {mediaOutlet}
         </div>
       )}
 
@@ -130,6 +154,20 @@ function App() {
               </span>
             </strong> {result.bias_score}
           </p>
+
+          <span
+            className={
+              result.political_standing === "Left-leaning"
+                ? "left-leaning"
+                : result.political_standing === "Right-leaning"
+                ? "right-leaning"
+                : result.political_standing === "Center"
+                ? "center"
+                : ""
+            }
+          >
+            {result.political_standing || "Unknown"}
+          </span>
         </div>
       )}
     </div>
