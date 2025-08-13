@@ -103,9 +103,8 @@ function App() {
           style={{ width: '100%', fontSize: '15px' }}
         />
       ) : (
-        <div>
-          {/* show the output of what the user entered in the textarea above: */}
-          {mediaOutlet}
+        <div className="media-outlet" style={{ marginTop: '10px', padding: '10px', backgroundColor: '#f5f5f5' }}>
+          <strong>Media Outlet:</strong> {mediaOutlet || "Not specified"}
         </div>
       )}
 
