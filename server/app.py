@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from nlp.bias_analysis import analyze_bias
+from nlp.summarizer import summarize_text
 
 app = Flask(__name__)
 CORS(app)
@@ -16,10 +17,11 @@ def analyze():
     media_outlet_input = data.get("media_outlet", "").strip()
 
     analysis = analyze_bias(text, media_outlet_input)
+    summary = summarize_text(text)
 
     return jsonify({
         "text": text,
-        "analysis": analysis
+        "analysis": { **analysis, "summary": summary }
     })
 
 if __name__ == '__main__':

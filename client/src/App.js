@@ -155,6 +155,12 @@ function App() {
             </strong> {result.bias_score}
           </p>
 
+          {result.summary && (
+            <p>
+              <strong>Summary:</strong> {result.summary}
+            </p>
+          )}
+
           <span
             className={
               result.political_standing === "Left-leaning"
