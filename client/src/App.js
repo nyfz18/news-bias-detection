@@ -56,7 +56,7 @@ function App() {
       });
 
       const data = await response.json();
-      setResult(data.analysis);
+      setResult(data);
       setAnalyzed(true);
     } catch (error) {
       console.error("Error during analysis:", error);
@@ -84,6 +84,12 @@ function App() {
         // Return text with bias keywords highlighted:
         <div className="highlighted-text" style={{ fontSize: '15px', padding: '10px'}}>
           {highlightBiasKeywords(text, result.bias_keywords)}
+        </div>
+      )}
+
+      {result && result.summary && (
+        <div className="summary" style={{ marginTop: '10px', padding: '10px', backgroundColor: '#f5f5f5' }}>
+          <strong>Summary:</strong> {result.summary}
         </div>
       )}
 
@@ -115,67 +121,61 @@ function App() {
       )}
     </div>
 
-      {result && typeof result.polarity === "number" && typeof result.subjectivity === "number" && (
-        <div className="result">
-          <h2>Analysis Result:</h2>
-          
-          <p>
-            <strong className="tooltip">
-              Polarity:
-              <span className="tooltiptext">
-                Polarity indicates the sentiment from negative (-1) to positive (+1).
-              </span>
-            </strong> {result.polarity.toFixed(2)}
-          </p>
-  
-          <p>
-            <strong className="tooltip">
-              Subjectivity:
-              <span className="tooltiptext">
-                Subjectivity measures how subjective (1) or objective (0) the text is.
-              </span>
-            </strong> {result.subjectivity.toFixed(2)}
-          </p>
+    {result && result.analysis && typeof result.analysis.polarity === "number" && (
+      <div className="result">
+        <h2>Analysis Result:</h2>
+        
+        <p>
+          <strong className="tooltip">
+            Polarity:
+            <span className="tooltiptext">
+              Polarity indicates the sentiment from negative (-1) to positive (+1).
+            </span>
+          </strong> {result.analysis.polarity.toFixed(2)}
+        </p>
 
-          <p>
-            <strong className="tooltip">
-              Bias Keywords Found:
-              <span className="tooltiptext">
-                Number of biased words detected in the text.
-              </span>
-            </strong> {result.bias_count}
-          </p>
+        <p>
+          <strong className="tooltip">
+            Subjectivity:
+            <span className="tooltiptext">
+              Subjectivity measures how subjective (1) or objective (0) the text is.
+            </span>
+          </strong> {result.analysis.subjectivity.toFixed(2)}
+        </p>
 
-          <p>
-            <strong className="tooltip">
-              Bias Score:
-              <span className="tooltiptext">
-                Overall bias level calculated from keyword frequency and text subjectivity.
-              </span>
-            </strong> {result.bias_score}
-          </p>
+        <p>
+          <strong className="tooltip">
+            Bias Keywords Found:
+            <span className="tooltiptext">
+              Number of biased words detected in the text.
+            </span>
+          </strong> {result.analysis.bias_count}
+        </p>
 
-          {result.summary && (
-            <p>
-              <strong>Summary:</strong> {result.summary}
-            </p>
-          )}
+        <p>
+          <strong className="tooltip">
+            Bias Score:
+            <span className="tooltiptext">
+              Overall bias level calculated from keyword frequency and text subjectivity.
+            </span>
+          </strong> {result.analysis.bias_score}
+        </p>
 
-          <span
-            className={
-              result.political_standing === "Left-leaning"
-                ? "left-leaning"
-                : result.political_standing === "Right-leaning"
-                ? "right-leaning"
-                : result.political_standing === "Center"
-                ? "center"
-                : ""
-            }
-          >
-            {result.political_standing || "Unknown"}
-          </span>
-        </div>
-      )}
+        <span
+          className={
+            result.analysis.political_standing === "Left-leaning"
+              ? "left-leaning"
+              : result.analysis.political_standing === "Right-leaning"
+              ? "right-leaning"
+              : result.analysis.political_standing === "Center"
+              ? "center"
+              : ""
+          }
+        >
+          {result.analysis.political_standing || "Unknown"}
+        </span>
+      </div>
+    )}
     </div>
   );
 }

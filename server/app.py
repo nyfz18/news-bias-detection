@@ -21,7 +21,8 @@ def analyze():
 
     return jsonify({
         "text": text,
-        "analysis": { **analysis, "summary": summary }
+        "summary": summary,
+        "analysis": analysis,
     })
 
 if __name__ == '__main__':
